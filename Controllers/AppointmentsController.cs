@@ -22,14 +22,14 @@ namespace HospitalManagementSystemApi.Controllers
             _context = context;
         }
 
-        // GET: api/Appointments
+        // GET: /Appointments
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Appointment>>> GetAppointment()
         {
             return await _context.Appointment.ToListAsync();
         }
 
-        // GET: api/Appointments/5
+        // GET: /Appointments/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Appointment>> GetAppointment(int id)
         {
@@ -43,7 +43,7 @@ namespace HospitalManagementSystemApi.Controllers
             return appointment;
         }
         
-        // PUT: api/Appointments/5
+        // PUT: /Appointments/5
         [HttpPut("{id}")]
         public async Task<IActionResult> PutAppointment(int id, Appointment appointment)
         {
@@ -73,7 +73,7 @@ namespace HospitalManagementSystemApi.Controllers
             return NoContent();
         }
 
-        // POST: api/Appointments
+        // POST: /Appointments
         
         [HttpPost]
         public async Task<ActionResult<Appointment>> PostAppointment(AppointmentModel appointmentModel)
@@ -88,7 +88,7 @@ namespace HospitalManagementSystemApi.Controllers
             return CreatedAtAction("GetAppointment", new { id = appointment.appointment_id }, appointment);
         }
 
-        // DELETE: api/Appointments/5
+        // DELETE: /Appointments/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteAppointment(int id)
         {
