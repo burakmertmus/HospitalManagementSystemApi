@@ -31,6 +31,7 @@ namespace HospitalManagementSystemApi
         {
             services.AddDbContext<DataContext>(x => x.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddControllers();
+            services.AddCors();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "HospitalManagementSystemApi", Version = "v1" });
@@ -48,7 +49,7 @@ namespace HospitalManagementSystemApi
             }
 
             app.UseHttpsRedirection();
-
+            app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().SetIsOriginAllowed(origin => true).AllowCredentials());
             app.UseRouting();
 
             app.UseAuthorization();
