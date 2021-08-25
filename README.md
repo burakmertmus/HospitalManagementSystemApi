@@ -5,16 +5,16 @@
 - Pazartesi:12 saat
 - Salı:12 saat
 - Çarşamba:15 saat
-  Toplam:49 saat
+  Toplam:39 saat
   
 # Projenin çalışan yönleri
 
 ## [Frontend Side]
 
-### Kullanılan komponenetler
-- AppointmentRoutingModule
+### Kullanılan Modüller
+- RoutergModule
 - NzTableModule
-- NzButtonModule,
+- NzButtonModule
 - NzModalModule 
 - NzDividerModule
 - NzInputModule 
@@ -33,6 +33,7 @@
 ## Projenin Çalışmayan yönleri
 
 - Oclazyload 
+- Html Ve Css Testinden geçemeyen sayfalar bulunmaktadır.
 
-
- [FrontendSide]: <https://github.com/burakmertmus/HospitalManagementSystemFrontend>
+[frontend side]: <https://github.com/burakmertmus/HospitalManagementSystemFrontend>
+ 
