@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace HospitalManagementSystemApi.RequestModels
 {
-    public class AppointmentModel
+    public class AppointmentCreateModel
     {
         
         public int doc_id { get; set; }

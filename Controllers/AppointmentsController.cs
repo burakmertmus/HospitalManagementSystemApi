@@ -45,14 +45,18 @@ namespace HospitalManagementSystemApi.Controllers
         
         // PUT: /Appointments/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutAppointment(int id, Appointment appointment)
+        public async Task<IActionResult> PutAppointment(int id, AppointmentUpdateModel appointmentUpdateModel)
         {
-            if (id != appointment.appointment_id)
-            {
-                return BadRequest();
-            }
+            var appointmentReq = await _context.Appointment.FindAsync(id);
 
-            _context.Entry(appointment).State = EntityState.Modified;
+            if (appointmentReq == null)
+            {
+                return NotFound();
+            }
+            appointmentReq.doc_id = appointmentUpdateModel.doc_id;
+            appointmentReq.pat_id = appointmentUpdateModel.pat_id;
+
+            _context.Entry(appointmentReq).State = EntityState.Modified;
 
             try
             {
@@ -76,12 +80,13 @@ namespace HospitalManagementSystemApi.Controllers
         // POST: /Appointments
         
         [HttpPost]
-        public async Task<ActionResult<Appointment>> PostAppointment(AppointmentModel appointmentModel)
+        public async Task<ActionResult<Appointment>> PostAppointment(AppointmentCreateModel appointmentCreateModel)
         {
             var appointment = new Appointment();
-            appointment.appointment_date = appointmentModel.appointment_date;
-            appointment.doc_id = appointmentModel.doc_id;
-            appointment.pat_id = appointmentModel.pat_id;
+            appointment.appointment_date = appointmentCreateModel.appointment_date;
+            appointment.doc_id = appointmentCreateModel.doc_id;
+            appointment.pat_id = appointmentCreateModel.pat_id;
+
             _context.Appointment.Add(appointment);
             await _context.SaveChangesAsync();
 

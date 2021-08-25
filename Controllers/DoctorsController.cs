@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using HospitalManagementSystemApi.Data;
 using HospitalManagementSystemApi.Models;
+using HospitalManagementSystemApi.RequestModels;
 
 namespace HospitalManagementSystemApi.Controllers
 {
@@ -44,12 +45,20 @@ namespace HospitalManagementSystemApi.Controllers
 
         // PUT: /Doctors/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutDoctor(int id, Doctor doctor)
+        public async Task<IActionResult> PutDoctor(int id, DoctorCreateUpdateDto doctorCreateUpdateDto)
         {
-            if (id != doctor.doctor_id)
+            var doctor = await _context.Doctor.FindAsync(id);
+
+            if (doctor == null)
             {
-                return BadRequest();
+                return NotFound();
             }
+       
+
+            doctor.doc_first_name = doctorCreateUpdateDto.doc_first_name;
+            doctor.doc_last_name = doctorCreateUpdateDto.doc_last_name;
+            doctor.doc_ph_no = doctorCreateUpdateDto.doc_ph_no;
+            doctor.doc_address = doctorCreateUpdateDto.doc_address;
 
             _context.Entry(doctor).State = EntityState.Modified;
 
@@ -72,17 +81,23 @@ namespace HospitalManagementSystemApi.Controllers
             return NoContent();
         }
 
-        // POST: api/Doctors
+        // POST: /Doctors
         [HttpPost]
-        public async Task<ActionResult<Doctor>> PostDoctor(Doctor doctor)
+        public async Task<ActionResult<Doctor>> PostDoctor(DoctorCreateUpdateDto doctorCreateUpdateDto)
         {
+            var doctor = new Doctor();
+            doctor.doc_first_name = doctorCreateUpdateDto.doc_first_name;
+            doctor.doc_last_name = doctorCreateUpdateDto.doc_last_name;
+            doctor.doc_ph_no = doctorCreateUpdateDto.doc_ph_no;
+            doctor.doc_address = doctorCreateUpdateDto.doc_address;
+
             _context.Doctor.Add(doctor);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetDoctor", new { id = doctor.doctor_id }, doctor);
         }
 
-        // DELETE: api/Doctors/5
+        // DELETE: /Doctors/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteDoctor(int id)
         {
