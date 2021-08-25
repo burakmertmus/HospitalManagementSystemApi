@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using HospitalManagementSystemApi.Data;
 using HospitalManagementSystemApi.Models;
+using HospitalManagementSystemApi.RequestModels;
 
 namespace HospitalManagementSystemApi.Controllers
 {
@@ -45,12 +46,24 @@ namespace HospitalManagementSystemApi.Controllers
         // PUT: /Patients/5
         
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutPatient(int id, Patient patient)
+        public async Task<IActionResult> PutPatient(int id, PatientCreateUpdateModel patientCreateUpdateModel)
         {
-            if (id != patient.patient_id)
+          
+
+
+            var patient = await _context.Patient.FindAsync(id);
+
+            if (patient == null)
             {
-                return BadRequest();
+                return NotFound();
             }
+
+            
+            patient.pat_first_name = patientCreateUpdateModel.pat_first_name;
+            patient.pat_last_name = patientCreateUpdateModel.pat_last_name;
+            patient.pat_insurance_no = patientCreateUpdateModel.pat_insurance_no;
+            patient.pat_ph_no = patientCreateUpdateModel.pat_ph_no;
+            patient.pat_address = patientCreateUpdateModel.pat_address;
 
             _context.Entry(patient).State = EntityState.Modified;
 
@@ -76,8 +89,15 @@ namespace HospitalManagementSystemApi.Controllers
         // POST: /Patients
         
         [HttpPost]
-        public async Task<ActionResult<Patient>> PostPatient(Patient patient)
+        public async Task<ActionResult<Patient>> PostPatient(PatientCreateUpdateModel patientCreateUpdateModel)
         {
+            var patient = new Patient();
+            patient.pat_first_name = patientCreateUpdateModel.pat_first_name;
+            patient.pat_last_name = patientCreateUpdateModel.pat_last_name;
+            patient.pat_insurance_no = patientCreateUpdateModel.pat_insurance_no;
+            patient.pat_ph_no = patientCreateUpdateModel.pat_ph_no;
+            patient.pat_address = patientCreateUpdateModel.pat_address;
+
             _context.Patient.Add(patient);
             await _context.SaveChangesAsync();
 
